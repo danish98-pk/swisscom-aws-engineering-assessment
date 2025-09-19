@@ -34,5 +34,6 @@ provider "aws" {
     stepfunctions  = "http://localhost:4566"
     sts            = "http://localhost:4566"
     kms            = "http://localhost:4566"
+    config         = "http://localhost:4566"
   }
 }
