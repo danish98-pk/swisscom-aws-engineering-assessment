@@ -76,3 +76,81 @@ resource "aws_iam_role_policy" "worker_lambda_policy" {
 
 
 
+# IAM Role for check_encryption_lambda
+resource "aws_iam_role" "check_encryption_lambda_role" {
+  name = "check_encryption_lambda_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action    = "sts:AssumeRole",
+      Effect    = "Allow",
+      Principal = { Service = "lambda.amazonaws.com" }
+    }]
+  })
+}
+
+
+# IAM Policy for check_encryption_lambda
+resource "aws_iam_role_policy" "check_encryption_lambda_policy" {
+  name = "check_encryption_lambda_policy"
+  role = aws_iam_role.check_encryption_lambda_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      # S3 permissions
+      {
+        Effect   = "Allow",
+        Action   = [
+          "s3:ListAllMyBuckets",
+          "s3:GetBucketEncryption"
+        ],
+        Resource = "*",
+        Condition = {
+          StringEquals = {
+            "aws:ResourceAccount" = "000000000000"
+          }
+        }
+      },
+
+      # DynamoDB permissions
+      {
+        Effect   = "Allow",
+        Action   = [
+          "dynamodb:ListTables",
+          "dynamodb:DescribeTable"
+        ],
+        Resource = "arn:aws:dynamodb:eu-central-1:000000000000:table/*",
+        Condition = {
+          StringEquals = {
+            "aws:ResourceAccount" = "000000000000"
+          }
+        }
+      },
+
+      # SNS publish to your topic only (already account-specific)
+      {
+        Effect   = "Allow",
+        Action   = ["sns:Publish"],
+        Resource = aws_sns_topic.alerts.arn
+      },
+
+      # CloudWatch Logs
+      {
+        Effect   = "Allow",
+        Action   = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*",
+        Condition = {
+          StringEquals = {
+            "aws:ResourceAccount" = "000000000000"
+          }
+        }
+      }
+    ]
+  })
+}
