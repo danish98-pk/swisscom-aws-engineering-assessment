@@ -12,6 +12,7 @@ resource "aws_iam_role" "starter_lambda_role" {
   })
 }
 
+#add stepfunction arn here
 resource "aws_iam_role_policy" "starter_lambda_policy" {
   name = "starter_lambda_policy"
   role = aws_iam_role.starter_lambda_role.id
@@ -72,5 +73,6 @@ resource "aws_iam_role_policy" "worker_lambda_policy" {
     ]
   })
 }
+
 
 
