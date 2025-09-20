@@ -38,36 +38,3 @@ resource "null_resource" "s3_lifecycle" {
     command = "aws --endpoint-url=http://localhost:4566 s3api put-bucket-lifecycle-configuration --bucket ${aws_s3_bucket.uploads.id} --lifecycle-configuration '{\"Rules\":[{\"ID\":\"expire-old-objects\",\"Status\":\"Enabled\",\"Filter\":{},\"Expiration\":{\"Days\":90}}]}'"
   }
 }
-
-
-
-# ###config
-# resource "aws_s3_bucket" "config_bucket" {
-#   bucket = "config-bucket"
-# }
-
-# resource "aws_config_delivery_channel" "config_delivery" {
-#   name           = "security"
-#   s3_bucket_name = aws_s3_bucket.config_bucket.id
-#   sns_topic_arn  = aws_sns_topic.alerts.arn
-# }
-
-
-# resource "aws_config_config_rule" "s3_encryption_rule" {
-#   name = "s3-bucket-server-side-encryption-enabled"
-
-#   source {
-#     owner             = "AWS"
-#     source_identifier = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
-#   }
-# }
-
-# resource "aws_config_config_rule" "ddb_encryption_rule" {
-#   name = "dynamodb-table-server-side-encryption-enabled"
-
-#   source {
-#     owner             = "AWS"
-#     source_identifier = "DYNAMODB_TABLE_SERVER_SIDE_ENCRYPTION_ENABLED"
-#   }
-# }
-
