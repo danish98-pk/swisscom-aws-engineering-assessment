@@ -15,7 +15,8 @@ jobs:
       # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
+        #reference : https://github.com/aquasecurity/tfsec
       - name: Run tfsec and save JSON report
         run: |
           docker run --rm -v ${{ github.workspace }}:/src aquasec/tfsec /src/aws-engineering-assessment/terraform --format json --soft-fail > tfsec-report.json
