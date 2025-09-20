@@ -21,7 +21,7 @@ jobs:
           docker run --rm -v ${{ github.workspace }}:/src aquasec/tfsec /src/aws-engineering-assessment/terraform --format json --soft-fail > tfsec-report.json
 
       - name: Upload tfsec report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tfsec-report
           path: tfsec-report.json
