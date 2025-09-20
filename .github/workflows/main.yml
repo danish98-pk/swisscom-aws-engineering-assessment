@@ -22,10 +22,6 @@ jobs:
           curl -L https://github.com/aquasecurity/tfsec/releases/download/v$TFSEC_VERSION/tfsec-linux-amd64 -o /usr/local/bin/tfsec
           chmod +x /usr/local/bin/tfsec
 
-      - name: Run tfsec
-        run: tfsec ./terraform
-
-
       # 3. Run tfsec scan on terraform/ folder
       - name: Run tfsec
         run: tfsec ./aws-engineering-assessment/terraform
