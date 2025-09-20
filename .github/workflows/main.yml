@@ -16,9 +16,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run tfsec using Docker
+      - name: Install tfsec
         run: |
-          docker run --rm -v ${{ github.workspace }}:/src aquasec/tfsec /src/terraform
+          TFSEC_VERSION="1.32.2"  # pick latest release
+          curl -L https://github.com/aquasecurity/tfsec/releases/download/v$TFSEC_VERSION/tfsec-linux-amd64 -o /usr/local/bin/tfsec
+          chmod +x /usr/local/bin/tfsec
+
+      - name: Run tfsec
+        run: tfsec ./terraform
+
 
       # 3. Run tfsec scan on terraform/ folder
       - name: Run tfsec
