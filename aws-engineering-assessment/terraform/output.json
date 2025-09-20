@@ -1,1 +1,0 @@
-{"details":["S3 Bucket 'my-unencrypted-bucket' is unencrypted","DynamoDB Table 'unencrypted-table' is unencrypted"],"status":"Alert sent"}
